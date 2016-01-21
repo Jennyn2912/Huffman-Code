@@ -57,6 +57,22 @@ using namespace std;
      */
     void encode(byte symbol, BitOutputStream& out) const {
 
+    	HCNode* current = leaves[symbol];
+    	if (current->p) {
+    		encode((current->p)->symbol, out);
+    	}
+    	else {
+    		return;
+    	}
+    		
+    	if ((current->p)->c0 == current) {
+    		out << '0';
+    	}
+
+    	else {
+    		out << '1';
+    	}
+    	
     }
 
     /** Write to the given ofstream
@@ -84,6 +100,6 @@ using namespace std;
      *  IN THE FINAL SUBMISSION.
      */
     int decode(ifstream& in) const {
-    	
+
 
     }
