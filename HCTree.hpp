@@ -5,8 +5,8 @@
 #include <vector>
 #include <fstream>
 #include "HCNode.hpp"
-#include "BitInputStream.hpp"
-#include "BitOutputStream.hpp"
+//#include "BitInputStream.hpp"
+//#include "BitOutputStream.hpp"
 
 using namespace std;
 

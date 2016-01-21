@@ -2,8 +2,9 @@
 #include <vector>
 #include <fstream>
 #include "HCNode.hpp"
-#include "BitInputStream.hpp"
-#include "BitOutputStream.hpp"
+#include "HCNode.cpp"
+//#include "BitInputStream.hpp"
+//#include "BitOutputStream.hpp"
 #include "HCTree.hpp"
 
 using namespace std;
@@ -15,17 +16,14 @@ using namespace std;
      *  POSTCONDITION:  root points to the root of the trie,
      *  and leaves[i] points to the leaf node containing byte i.
      */
-    void build(const vector<int>& freqs) {
-    	//start with the forest
-
-    	//choose 2 smallest trees to merge
-    	//repeat
-
+    void HCTree::build(const vector<int>& freqs) {
+    	
     	std:priority_queue<HCNode*,std::vector<HCNode*>,HCNodePtrComp> pqueue;
-    	HCNode* leaf1, leaf2;
+    	HCNode* leaf1 = new HCNode(0,0,0,0,0);
+    	HCNode* leaf2 = new HCNode(0,0,0,0,0);
     	int combine = 0;
-
-    	for ( int i = 0; i < 256, i++) {
+    	int i;
+    	for ( i = 0; i < 256, i++) {
     		if ( freqs[i] != 0) {
     			HCNode* pointer = new HCNode(freqs[i], i, 0, 0, 0);
     			leaves[i] = pointer;
@@ -35,9 +33,9 @@ using namespace std;
 
     	while (pqueue.size() > 1) {
     		leaf1 = pqueue.top();
-    		pqueue.pop(leaf1);
+    		pqueue.pop();
     		leaf2 = pqueue.top();
-    		pqueue.pop(leaf2);
+    		pqueue.pop();
     		combine = leaf1->count + leaf2->count;
     		HCNode* newNode = new HCNode(combine,0, leaf1, leaf2, 0);
     		leaf1->p = newNode;
@@ -46,6 +44,8 @@ using namespace std;
     	}
 
     	this->root = pqueue.top();
+    	cout << root->symbol;
+    	cout << root->count;
     	pqueue.pop();
 
     }
@@ -55,8 +55,9 @@ using namespace std;
      *  PRECONDITION: build() has been called, to create the coding
      *  tree, and initialize root pointer and leaves vector.
      */
-    void encode(byte symbol, BitOutputStream& out) const {
-
+   	
+   	void HCTree::encode(byte symbol, BitOutputStream& out) const {
+		//TODO
     }
 
     /** Write to the given ofstream
@@ -66,7 +67,7 @@ using namespace std;
      *  THIS METHOD IS USEFUL FOR THE CHECKPOINT BUT SHOULD NOT 
      *  BE USED IN THE FINAL SUBMISSION.
      */
-    void encode(byte symbol, ofstream& out) const {
+    void HCTree::encode(byte symbol, ofstream& out) const {
     	HCNode* current = leaves[symbol];
     	if (current->p) {
     		encode((current->p)->symbol, out);
@@ -76,11 +77,11 @@ using namespace std;
     	}
     		
     	if ((current->p)->c0 == current) {
-    		out << '0';
+    		out.put('0');
     	}
 
     	else {
-    		out << '1';
+    		out.put('1');
     	}
     	
     }
@@ -90,8 +91,9 @@ using namespace std;
      *  PRECONDITION: build() has been called, to create the coding
      *  tree, and initialize root pointer and leaves vector.
      */
-    int decode(BitInputStream& in) const {
-
+    
+    int HCTree::decode(BitInputStream& in) const {
+		//TODO
     }
 
     /** Return the symbol coded in the next sequence of bits (represented as 
@@ -101,7 +103,24 @@ using namespace std;
      *  THIS METHOD IS USEFUL FOR THE CHECKPOINT BUT SHOULD NOT BE USED
      *  IN THE FINAL SUBMISSION.
      */
-    int decode(ifstream& in) const {
+    int HCTree::decode(ifstream& in) const {
+    	char code;
+    	HCNode* node = root;
 
+    	if (!(root->c0) && !(root->c1)) {
+    		return root->symbol;
+    	}
 
+    	else {
+    		code = in.get();
+    		
+    		if ( code == 1) {
+    			node = node->c1;
+    		}
+    		else {
+    			node = node->c0;
+    		}
+    	}
+    	return node->symbol;
+    	
     }
