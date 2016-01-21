@@ -57,6 +57,16 @@ using namespace std;
      */
     void encode(byte symbol, BitOutputStream& out) const {
 
+    }
+
+    /** Write to the given ofstream
+     *  the sequence of bits (as ASCII) coding the given symbol.
+     *  PRECONDITION: build() has been called, to create the coding
+     *  tree, and initialize root pointer and leaves vector.
+     *  THIS METHOD IS USEFUL FOR THE CHECKPOINT BUT SHOULD NOT 
+     *  BE USED IN THE FINAL SUBMISSION.
+     */
+    void encode(byte symbol, ofstream& out) const {
     	HCNode* current = leaves[symbol];
     	if (current->p) {
     		encode((current->p)->symbol, out);
@@ -74,14 +84,6 @@ using namespace std;
     	}
     	
     }
-
-    /** Write to the given ofstream
-     *  the sequence of bits (as ASCII) coding the given symbol.
-     *  PRECONDITION: build() has been called, to create the coding
-     *  tree, and initialize root pointer and leaves vector.
-     *  THIS METHOD IS USEFUL FOR THE CHECKPOINT BUT SHOULD NOT 
-     *  BE USED IN THE FINAL SUBMISSION.
-     */
 
 
     /** Return symbol coded in the next sequence of bits from the stream.
