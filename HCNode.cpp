@@ -30,4 +30,4 @@
   	else {
   		return false;
   	}
-  };
+  }

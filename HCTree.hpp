@@ -38,6 +38,13 @@ public:
 
     ~HCTree();
 
+    /* Delete the Huffman tree. Call in the destructor
+     */
+    void deleteAll(HCNode* node);
+
+    void encodeRecursion(HCNode* node, ofstream& out) const;
+
+
     /** Use the Huffman algorithm to build a Huffman coding trie.
      *  PRECONDITION: freqs is a vector of ints, such that freqs[i] is 
      *  the frequency of occurrence of byte i in the message.
@@ -51,7 +58,7 @@ public:
      *  PRECONDITION: build() has been called, to create the coding
      *  tree, and initialize root pointer and leaves vector.
      */
-    void encode(byte symbol, BitOutputStream& out) const;
+    //void encode(byte symbol, BitOutputStream& out) const;
 
     /** Write to the given ofstream
      *  the sequence of bits (as ASCII) coding the given symbol.
@@ -67,7 +74,7 @@ public:
      *  PRECONDITION: build() has been called, to create the coding
      *  tree, and initialize root pointer and leaves vector.
      */
-    int decode(BitInputStream& in) const;
+    //int decode(BitInputStream& in) const;
 
     /** Return the symbol coded in the next sequence of bits (represented as 
      *  ASCII text) from the ifstream.
