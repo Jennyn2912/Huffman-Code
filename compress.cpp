@@ -12,12 +12,12 @@ int main (int argc, char** argv) {
 
 	unsigned char nextChar;
 	HCTree tree;
-	
+
 	inputFile.open(argv[1]);
 
 	if (!inputFile.is_open()) {
 		cout << "FILE NOT OPEN" << endl;
-	  return -1;	
+		return -1;	
 	}
 
 	vector<int> freqs = vector<int>(256,0);
@@ -30,34 +30,32 @@ int main (int argc, char** argv) {
 	}
 
 	/*if(!inputFile.eof()) { // loop stopped for some bad reason...
-    cerr << "There was a problem." << endl; 
-    return -1;
-  }*/
+	  cerr << "There was a problem." << endl; 
+	  return -1;
+	  }*/
 
 	inputFile.close();
 
 	outputFile.open(argv[2]);
 
 	tree.build(freqs);
-  
+
 	int i;
-    for ( i = 0; i < freqs.size(); i++) {
-  		outputFile << freqs[i] << " ";
-  	}
-		
-		outputFile << endl;
- 
-    inputFile.open(argv[1]);
-    while(1) {
-    	nextChar = (unsigned char) inputFile.get();
-    	if (inputFile.eof()) {break;}
-    	tree.encode(nextChar, outputFile);	
-    }
+	for ( i = 0; i < freqs.size(); i++) {
+		outputFile << freqs[i] << endl;
+	}
 
-    inputFile.close();
-    outputFile.close();
+	inputFile.open(argv[1]);
+	while(1) {
+		nextChar = (unsigned char) inputFile.get();
+		if (inputFile.eof()) {break;}
+		tree.encode(nextChar, outputFile);	
+	}
 
-    return 0;
+	inputFile.close();
+	outputFile.close();
+
+	return 0;
 
 }
 // open the input file
