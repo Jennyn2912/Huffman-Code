@@ -69,7 +69,6 @@ std:priority_queue<HCNode*,std::vector<HCNode*>,HCNodePtrComp> pqueue;
     this->root = pqueue.top();
     pqueue.pop();
 
-    //cout << "END of build()" << endl;
 }
 
 /** Write to the given BitOutputStream
@@ -143,7 +142,6 @@ int HCTree::decode(ifstream& in  ) const {
      //while not at the leaves
      while((node->c0)&&(node->c1)){ 
       code = in.get();
-      cout << code << endl;
       if (in.eof()){break;}
 			if ( code == '1' ) { 
 				node = node->c1;

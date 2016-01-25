@@ -40,7 +40,6 @@ int main (int argc, char** argv) {
 		nextChar = (unsigned char) inputFile.get();
 		if (inputFile.eof()) { break;}
 		freqs[nextChar]++;
-		cout << nextChar << endl;
 	}
 
 	inputFile.close();
