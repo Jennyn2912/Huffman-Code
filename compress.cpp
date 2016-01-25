@@ -1,3 +1,17 @@
+/*Name: Trang Thai Van Nguyen A91104612
+ *Name: 	Wei Jen Huang 	A99045410
+ *Date: 1/25/2016
+ *Assignment: PA2
+ *File name: compress.cpp
+ *Description: Takes a file and compresses it 
+ *open the input file
+ *count the frequency and store them in a vector<int> freqs
+ *pass the freqs into the build() function to build the tree
+ *write the freqs out to the OUTPUT file - implement the HEADER so TREES can be recreated.
+ *the first position corresponds to the ASCII value of 0, 64th position corresponding 'a' 
+ *and the count corresponds to the frequency. HEADER of the uncompressed
+ *call encode on the input file, write it out the output file.
+ */
 #include <vector>
 #include <fstream>
 //#include "BitInputStream.hpp"
@@ -29,11 +43,6 @@ int main (int argc, char** argv) {
 		cout << nextChar << endl;
 	}
 
-	/*if(!inputFile.eof()) { // loop stopped for some bad reason...
-	  cerr << "There was a problem." << endl; 
-	  return -1;
-	  }*/
-
 	inputFile.close();
 
 	outputFile.open(argv[2]);
@@ -58,16 +67,6 @@ int main (int argc, char** argv) {
 	return 0;
 
 }
-// open the input file
 
-//count the frequency and store them in a vector<int> freqs
-
-//pass the freqs into the build() function to build the tree
-
-//write the freqs out to the OUTPUT file - implement the HEADER so TREES can be recreated.
-//the first position corresponds to the ASCII value of 0, 64th position corresponding 'a' 
-//and the count corresponds to the frequency. HEADER of the uncompressed
-
-//call encode on the input file, write it out the output file.
 
 

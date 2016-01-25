@@ -1,3 +1,11 @@
+/*Name: Trang Thai Van Nguyen A91104612
+ *Name: 	Wei Jen Huang 	A99045410
+ *Date: 1/25/2016
+ *Assignment: PA2
+ *File name: HCNode.cpp
+ *Description: Allows us to compare one node to another by overloading
+ *operators
+ */
 #include <iostream>
 #include "HCNode.hpp"
 

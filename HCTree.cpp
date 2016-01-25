@@ -1,3 +1,11 @@
+/*Name: Trang Thai Van Nguyen A91104612
+ *Name: 	Wei Jen Huang 	A99045410
+ *Date: 1/25/2016
+ *Assignment: PA2
+ *File name: HCTree.cpp
+ *Description: The actual implementations of the tree. Including 
+ *the encoding and decoding of the text
+ */
 #include <vector>
 //#include "BitInputStream.hpp"
 //#include "BitOutputStream.hpp"
@@ -45,8 +53,6 @@ std:priority_queue<HCNode*,std::vector<HCNode*>,HCNodePtrComp> pqueue;
 	    return;
     }
 
-    cout << "SIZE " << pqueue.size() << endl;
-
     while (pqueue.size() > 1) {
 	    HCNode* leaf1 = pqueue.top();
 	    pqueue.pop();
@@ -54,24 +60,16 @@ std:priority_queue<HCNode*,std::vector<HCNode*>,HCNodePtrComp> pqueue;
 	    HCNode* leaf2 = pqueue.top();
 	    pqueue.pop();
 	    combine = leaf1->count + leaf2->count;
-	    cout << combine << endl;
 	    HCNode* newNode = new HCNode(combine,leaf1->symbol, leaf1, leaf2,0);
 	    leaf1->p = newNode;
 	    leaf2->p = newNode;
 	    pqueue.push(newNode);
-
-	    cout << "LEAF1 " << leaf1->symbol <<" " << leaf1->count << endl;
-	    cout << "LEAF2 " << leaf2->symbol <<" " << leaf2->count << endl;
-	    cout << "NEWNODE " << newNode->symbol <<" " << newNode->count << endl;
-
     }
 
     this->root = pqueue.top();
     pqueue.pop();
-    //cout << root->symbol;
-    //cout << root->count;
 
-    cout << "END of build()" << endl;
+    //cout << "END of build()" << endl;
 }
 
 /** Write to the given BitOutputStream
@@ -81,7 +79,6 @@ std:priority_queue<HCNode*,std::vector<HCNode*>,HCNodePtrComp> pqueue;
  */
 
 /*void HCTree::encode(byte symbol, BitOutputStream& out) const {
-//TODO
 }*/
 
 /** Write to the given ofstream
@@ -133,39 +130,30 @@ void HCTree::encodeRecursion(HCNode* node, ofstream& out) const {
  *  THIS METHOD IS USEFUL FOR THE CHECKPOINT BUT SHOULD NOT BE USED
  *  IN THE FINAL SUBMISSION.
  */
-int HCTree::decode(ifstream& in) const {
-	char code;
+int HCTree::decode(ifstream& in  ) const {
+	unsigned char code;
 	HCNode* node = root;
   
 	if (!(root->c0) && !(root->c1)) {
+     in.get();
 		 return root->symbol; 
 	}
 
 	else {
-     /*while(1){
-      if (in.eof()){break;}
-			code = in.get();
-      cout << "value of code " << code << endl;
-     }
-     */
-     
+     //while not at the leaves
+     while((node->c0)&&(node->c1)){ 
       code = in.get();
-      //there needs to be a loop that traces it down to the leave
-      //however I keep getting an infinite loop somehow
-      //while (node->c1 && node->c2 != 0)
-      //code = in.get()
-			if ( (int)code == 1 ) { //why does this result in true when value of code is 0?
+      cout << code << endl;
+      if (in.eof()){break;}
+			if ( code == '1' ) { 
 				node = node->c1;
-        
-        //std::cout<<"leaf1"<< endl;
 			}
 			else {
 				node = node->c0;
-        //std::cout<<"leaf0"<< endl;
 			}
-		
-
-	}
+   }
 	return node->symbol;
-
+	
+	
+  }
 }

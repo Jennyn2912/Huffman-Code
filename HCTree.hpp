@@ -1,3 +1,10 @@
+/*Name: Trang Thai Van Nguyen A91104612
+ *Name: 	Wei Jen Huang 	A99045410
+ *Date: 1/25/2016
+ *Assignment: PA2
+ *File name: HCTree.hpp
+ *Description: The interface and implementation of HCTree
+ */
 #ifndef HCTREE_HPP
 #define HCTREE_HPP
 
