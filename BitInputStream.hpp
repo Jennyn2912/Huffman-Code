@@ -1,7 +1,7 @@
 #ifndef BITINPUTSTREAM_HPP
 #define BITINTPUTSTREAM_HPP
 
-#include<iostream>;
+#include <iostream>
 
 class BitInputStream {
 	private:
@@ -12,11 +12,15 @@ class BitInputStream {
 		/** Initialize a BitInputStream that will use the given
  			* istream for input
 			*/
-		explicit BitInputStream(std:istream & is) : in(is), buffer(0), nbits(0){
+		BitInputStream(std:istream & is) : in(is) {
 			//clear buffer and bit counter
+			buffer = 0;
+			nbits = 8;
 		}
 
-		~BitInputStream();
+		/** Fill the buffer from the input
+		  */
+		void fill();
 		
 		/** Read the next bit from the bit buffer.
 		  * Fill the buffer from the input stream first if needed.
@@ -28,10 +32,6 @@ class BitInputStream {
 			// Get the bit at the appropriate locataion in the bit
 			// buffer and return the appropriate int
 			// Increment the index
-	
-
-		int readByte() const;
-
-		int readInt() const;
-}
+		
+};
 #endif
