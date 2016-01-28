@@ -7,8 +7,8 @@
  *the encoding and decoding of the text
  */
 #include <vector>
-//#include "BitInputStream.hpp"
-//#include "BitOutputStream.hpp"
+#include "BitInputStream.hpp"
+#include "BitOutputStream.hpp"
 #include "HCTree.hpp"
 
 using namespace std;
@@ -81,7 +81,7 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const {
 	HCNode* current = leaves[symbol];
 
 	if (!current->p) {
-		out.writeBit(1);
+		out.writeBit(0);
 		return;
 	}
 
@@ -94,6 +94,7 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const {
  *  tree, and initialize root pointer and leaves vector.
  *  THIS METHOD IS USEFUL FOR THE CHECKPOINT BUT SHOULD NOT 
  *  BE USED IN THE FINAL SUBMISSION.
+ */
 
 void HCTree::encode(byte symbol, ofstream& out) const {
 	HCNode* current = leaves[symbol];
@@ -101,8 +102,8 @@ void HCTree::encode(byte symbol, ofstream& out) const {
 		out << '0';
 		return;
 	}
-	encodeRecursion(current, out);
-} */
+	//encodeRecursion(current, out);
+} 
 
 void HCTree::encodeRecursion(HCNode* node, BitOutputStream& out) const {
 	//base case
@@ -127,12 +128,28 @@ void HCTree::encodeRecursion(HCNode* node, BitOutputStream& out) const {
 /** Return symbol coded in the next sequence of bits from the stream.
  *  PRECONDITION: build() has been called, to create the coding
  *  tree, and initialize root pointer and leaves vector.
- *
-int decode(BitInputStream& in) const {
-	unsigned char code;
+ */
+int HCTree::decode(BitInputStream& in) const {
+	int bit;
+	HCNode* node = this->root;
 
+	if (!(node->c0) && !(node->c1)) {
+         in.readBit();
+		 return node->symbol; 
+	}
 
-}*/
+	while ((node->c0) || (node->c1)) {
+		bit = in.readBit();
+		//if (in.eof()) { break;}
+		if (bit == 1) {
+			node = node->c1;
+		}
+		else {
+			node = node->c0;
+		}
+	}
+	return node->symbol;
+}
 
 /** Return the symbol coded in the next sequence of bits (represented as 
  *  ASCII text) from the ifstream.
@@ -140,13 +157,14 @@ int decode(BitInputStream& in) const {
  *  tree, and initialize root pointer and leaves vector.
  *  THIS METHOD IS USEFUL FOR THE CHECKPOINT BUT SHOULD NOT BE USED
  *  IN THE FINAL SUBMISSION.
- *
-int HCTree::decode(ifstream& in  ) const {
+ */
+int HCTree::decode(ifstream& in) const {
 	unsigned char code;
-	HCNode* node = root;
+	HCNode* node = this->root;
   
+
 	if (!(root->c0) && !(root->c1)) {
-     in.get();
+         in.get();
 		 return root->symbol; 
 	}
 
@@ -164,6 +182,5 @@ int HCTree::decode(ifstream& in  ) const {
    }
 	return node->symbol;
 	
-	
-  }*/
+  }
 }

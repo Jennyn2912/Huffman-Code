@@ -14,8 +14,8 @@
  */
 #include "HCTree.hpp"
 #include <fstream>
-//#include "BitInputStream.hpp"
-//#include "BitOutputStream.hpp"
+#include "BitInputStream.hpp"
+#include "BitOutputStream.hpp"
 #include "HCTree.hpp"
 
 using namespace std;

@@ -1,5 +1,5 @@
 #ifndef BITINPUTSTREAM_HPP
-#define BITINTPUTSTREAM_HPP
+#define BITINPUTSTREAM_HPP
 
 #include <iostream>
 
@@ -12,7 +12,7 @@ class BitInputStream {
 		/** Initialize a BitInputStream that will use the given
  			* istream for input
 			*/
-		BitInputStream(std:istream & is) : in(is) {
+		BitInputStream(std::istream & is) : in(is) {
 			//clear buffer and bit counter
 			buffer = 0;
 			nbits = 8;
@@ -27,7 +27,7 @@ class BitInputStream {
 			* Return 1 if the bit read is 1;
 			* Return 0 if the bit read is 0;
 			*/
-		int readBit() const ;
+		int readBit();
 			//If all bits in the buffer are read, fill the buffer first
 			// Get the bit at the appropriate locataion in the bit
 			// buffer and return the appropriate int

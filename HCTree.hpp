@@ -12,8 +12,8 @@
 #include <vector>
 #include <fstream>
 #include "HCNode.hpp"
-//#include "BitInputStream.hpp"
-//#include "BitOutputStream.hpp"
+#include "BitInputStream.hpp"
+#include "BitOutputStream.hpp"
 
 using namespace std;
 
@@ -49,7 +49,7 @@ public:
      */
     void deleteAll(HCNode* node);
 
-    void encodeRecursion(HCNode* node, ofstream& out) const;
+    void encodeRecursion(HCNode* node, BitOutputStream& out) const;
 
 
     /** Use the Huffman algorithm to build a Huffman coding trie.
@@ -65,7 +65,7 @@ public:
      *  PRECONDITION: build() has been called, to create the coding
      *  tree, and initialize root pointer and leaves vector.
      */
-    //void encode(byte symbol, BitOutputStream& out) const;
+    void encode(byte symbol, BitOutputStream& out) const;
 
     /** Write to the given ofstream
      *  the sequence of bits (as ASCII) coding the given symbol.
@@ -81,7 +81,7 @@ public:
      *  PRECONDITION: build() has been called, to create the coding
      *  tree, and initialize root pointer and leaves vector.
      */
-    //int decode(BitInputStream& in) const;
+    int decode(BitInputStream& in) const;
 
     /** Return the symbol coded in the next sequence of bits (represented as 
      *  ASCII text) from the ifstream.

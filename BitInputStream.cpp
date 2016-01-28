@@ -1,8 +1,6 @@
 #include "BitInputStream.hpp"
 #include <iostream>
 
-
-
 int BitInputStream::readBit() {
 	if ( nbits == 8 ) {
 		fill();
@@ -15,7 +13,7 @@ int BitInputStream::readBit() {
 	 	return 0;
 	 }
 
-	 nbits ++;
+	 nbits++;
 }
 
 void BitInputStream::fill() {

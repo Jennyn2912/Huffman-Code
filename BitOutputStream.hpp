@@ -1,7 +1,7 @@
 #ifndef BITOUTPUTSTREAM_HPP
 #define BITOUTPUTSTREAM_HPP
 
-#include<iostream>;
+#include <iostream>
 
 class BitOutputStream {
 	private:
@@ -12,7 +12,7 @@ class BitOutputStream {
 		/** Initialize a BitInputStream that will use the given
  			* istream for input
 			*/
-		BitOutputStream(std:istream & is) : in(is) {
+		BitOutputStream(std::ostream& os) : out (os) {
 			//clear buffer and bit counter
 			buffer = 0;
 			nbits = 8;
