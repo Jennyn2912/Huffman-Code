@@ -27,7 +27,7 @@ int main (int argc, char** argv) {
 	unsigned char nextChar;
 	HCTree tree;
 
-	inputFile.open(argv[1]);
+	inputFile.open(argv[1],ios::binary);
 
 	if (!inputFile.is_open()) {
 		cout << "FILE NOT OPEN" << endl;
@@ -44,21 +44,28 @@ int main (int argc, char** argv) {
 
 	inputFile.close();
 
-	outputFile.open(argv[2]);
+	outputFile.open(argv[2],ios::binary);
 
 	tree.build(freqs);
 
 	int i;
 	for ( i = 0; i < freqs.size(); i++) {
-		outputFile << freqs[i] << endl;
+		if(freqs[i]) {
+			outputFile << (unsigned char) i << freqs[i] << endl;
+		}
 	}
 
-	inputFile.open(argv[1]);
+	BitOutputStream outStream (outStream);
+
+	inputFile.open(argv[1],ios::binary);
+
 	while(1) {
 		nextChar = (unsigned char) inputFile.get();
 		if (inputFile.eof()) {break;}
-		tree.encode(nextChar, outputFile);	
+		tree.encode(nextChar, outStream);	
 	}
+
+	outStream.flush();
 
 	inputFile.close();
 	outputFile.close();

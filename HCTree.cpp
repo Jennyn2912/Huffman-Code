@@ -19,7 +19,7 @@ HCTree::~HCTree() {
 
 
 void HCTree::deleteAll(HCNode* node) {
-	if ( node == NULL) {	return; }
+	if ( node == NULL) { return; }
 	else {
 		deleteAll(node->c0);
 		deleteAll(node->c1);
