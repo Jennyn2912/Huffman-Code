@@ -6,7 +6,7 @@ int BitInputStream::readBit() {
 		fill();
 	}
 
-	if ( ((buffer >> nbits) & 1) == 1) {
+	if ( (char) ((buffer >> nbits) & 1) == '1') {
 		return 1;
 	}
 	 else {
