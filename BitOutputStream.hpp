@@ -5,7 +5,7 @@
 
 class BitOutputStream {
 	private:
-		char buffer; //one byte byffer of bits
+		char buffer; //one byte buffer of bits
 		int nbits;	//how many bits have been written to the buffer
 		std::ostream & out; //reference to the input stream to use	
 	public:
@@ -15,7 +15,7 @@ class BitOutputStream {
 		BitOutputStream(std::ostream& os) : out (os) {
 			//clear buffer and bit counter
 			buffer = 0;
-			nbits = 8;
+			nbits = 0;
 		}
 
 		/** Write the least significant bit of the argument to the 
@@ -27,7 +27,11 @@ class BitOutputStream {
 	
 		/** Send the buffer to the output and clear it
 		   */
-		void flush();
+		void flush() {
+			out.put(buffer);
+			out.flush();
+			buffer = nbits = 0;
+		}
 
 };
 #endif

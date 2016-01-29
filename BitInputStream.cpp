@@ -2,18 +2,15 @@
 #include <iostream>
 
 int BitInputStream::readBit() {
+
 	if ( nbits == 8 ) {
 		fill();
 	}
 
-	if ( (char) ((buffer >> nbits) & 1) == '1') {
-		return 1;
-	}
-	 else {
-	 	return 0;
-	 }
-
-	 nbits++;
+	int code = (buffer >> nbits ) & 1 ;
+	std::cout << code ;
+	nbits++;
+	return code;
 }
 
 void BitInputStream::fill() {

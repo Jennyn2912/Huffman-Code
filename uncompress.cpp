@@ -29,8 +29,8 @@ int main (int argc, char** argv) {
 	unsigned char nextChar;
 	HCTree tree;
 
-	inputFile.open(argv[1]);
-	outputFile.open(argv[2]);
+	inputFile.open(argv[1],ios::binary);
+	outputFile.open(argv[2],ios::binary);
 	if (!inputFile.is_open()) {
 		cout << "FILE NOT OPEN" << endl;
 		return -1;	
@@ -38,17 +38,23 @@ int main (int argc, char** argv) {
 
 	vector<int> freqs = vector<int>(256,(int)0);
 	string t;
+	int total;
 	for (int i = 0; i < 256; i++){
-	getline(inputFile,t);
-	freqs[i]=stoi(t);
+		getline(inputFile,t);
+		freqs[i]=stoi(t);
+		if (freqs[i] > 0) {
+			total = total + freqs[i];
+		}
+
 	}
 	//assign the frequency 
 	tree.build(freqs);
  
+ 	BitInputStream inStream(inputFile);
 	//at this point input file should be at the encoded message
-	while(inputFile.peek() != EOF) {	
-		outputFile << (char)tree.decode(inputFile); 
-		if (inputFile.eof()) {break;}
+	while(total > 0) {	
+		outputFile << (char)tree.decode(inStream); 
+		total--;
 	}
 	inputFile.close();
 	outputFile.close();

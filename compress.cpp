@@ -50,18 +50,17 @@ int main (int argc, char** argv) {
 
 	int i;
 	for ( i = 0; i < freqs.size(); i++) {
-		if(freqs[i]) {
-			outputFile << (unsigned char) i << freqs[i] << endl;
-		}
+		outputFile << freqs[i] << endl;
 	}
 
-	BitOutputStream outStream (outStream);
+	BitOutputStream outStream(outputFile);
 
 	inputFile.open(argv[1],ios::binary);
 
 	while(1) {
-		nextChar = (unsigned char) inputFile.get();
+		nextChar = (char) inputFile.get();
 		if (inputFile.eof()) {break;}
+		cout << nextChar << endl;
 		tree.encode(nextChar, outStream);	
 	}
 

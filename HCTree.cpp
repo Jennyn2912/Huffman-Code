@@ -7,9 +7,11 @@
  *the encoding and decoding of the text
  */
 #include <vector>
+#include <stack>
 #include "BitInputStream.hpp"
 #include "BitOutputStream.hpp"
 #include "HCTree.hpp"
+
 
 using namespace std;
 
@@ -79,51 +81,31 @@ std:priority_queue<HCNode*,std::vector<HCNode*>,HCNodePtrComp> pqueue;
 
 void HCTree::encode(byte symbol, BitOutputStream& out) const {
 	HCNode* current = leaves[symbol];
-
-	if (!current->p) {
+	//First in, Last Out
+	stack<int> encodeString;
+	if (current == this->root) {
 		out.writeBit(0);
 		return;
 	}
 
-	encodeRecursion(current, out);
-}
+	while (current->p){
 
-/** Write to the given ofstream
- *  the sequence of bits (as ASCII) coding the given symbol.
- *  PRECONDITION: build() has been called, to create the coding
- *  tree, and initialize root pointer and leaves vector.
- *  THIS METHOD IS USEFUL FOR THE CHECKPOINT BUT SHOULD NOT 
- *  BE USED IN THE FINAL SUBMISSION.
- */
-
-void HCTree::encode(byte symbol, ofstream& out) const {
-	HCNode* current = leaves[symbol];
-	if (!current->p) {
-		out << '0';
-		return;
-	}
-	//encodeRecursion(current, out);
-} 
-
-void HCTree::encodeRecursion(HCNode* node, BitOutputStream& out) const {
-	//base case
-	if (!node->p) {
-		return;
-	}
-	//recursive cases
-	else {
-		encodeRecursion(node->p,out);
+		if((current->p)->c0 == current) {
+			encodeString.push(0);
+		}
+		else {
+			encodeString.push(1);
+		}
+		current = current->p;
 	}
 
-	//from top of tree to bottom
-	if((node->p)->c0 == node) {
-		out.writeBit(0);
-	}
-
-	else {
-		out.writeBit(1);
+	while ( encodeString.size() > 0) {
+		out.writeBit(encodeString.top());
+		cout << encodeString.top() << endl;
+		encodeString.pop();
 	}
 }
+
 
 /** Return symbol coded in the next sequence of bits from the stream.
  *  PRECONDITION: build() has been called, to create the coding
@@ -133,14 +115,9 @@ int HCTree::decode(BitInputStream& in) const {
 	int bit;
 	HCNode* node = this->root;
 
-	if (!(node->c0) && !(node->c1)) {
-         in.readBit();
-		 return node->symbol; 
-	}
+	while ((node->c0)!= 0 && (node->c1) != 0 ) {
+		bit = in.BitInputStream::readBit();
 
-	while ((node->c0) || (node->c1)) {
-		bit = in.readBit();
-		//if (in.eof()) { break;}
 		if (bit == 1) {
 			node = node->c1;
 		}
@@ -151,36 +128,3 @@ int HCTree::decode(BitInputStream& in) const {
 	return node->symbol;
 }
 
-/** Return the symbol coded in the next sequence of bits (represented as 
- *  ASCII text) from the ifstream.
- *  PRECONDITION: build() has been called, to create the coding
- *  tree, and initialize root pointer and leaves vector.
- *  THIS METHOD IS USEFUL FOR THE CHECKPOINT BUT SHOULD NOT BE USED
- *  IN THE FINAL SUBMISSION.
- */
-int HCTree::decode(ifstream& in) const {
-	unsigned char code;
-	HCNode* node = this->root;
-  
-
-	if (!(root->c0) && !(root->c1)) {
-         in.get();
-		 return root->symbol; 
-	}
-
-	else {
-     //while not at the leaves
-     while((node->c0)&&(node->c1)){ 
-      code = in.get();
-      if (in.eof()){break;}
-			if ( code == '1' ) { 
-				node = node->c1;
-			}
-			else {
-				node = node->c0;
-			}
-   }
-	return node->symbol;
-	
-  }
-}
